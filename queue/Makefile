@@ -1,7 +1,7 @@
 # phony rules
 .PHONY: build
 build:
-	@docker run --rm -it -v E:/goAlgos/queue/:/go/src test-go bash -c "go build -o go-test queue.go"
+	@docker run --rm -it -v E:/goDsa/queue/:/go/src test-go bash -c "go build -o go-test queue.go"
 
 .PHONY: build-image
 build-image:
@@ -9,4 +9,4 @@ build-image:
 
 .PHONY: run
 run:
-	@docker run --rm -it -v E:/goAlgos/queue/:/go/src test-go bash -c "go run queue.go"
+	@docker run --rm -it -v E:/goDsa/queue/:/go/src test-go bash -c "go run queue.go"
