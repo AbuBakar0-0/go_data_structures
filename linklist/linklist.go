@@ -2,90 +2,63 @@ package main
 
 import "fmt"
 
-type Node struct {
-	prev *Node
-	next *Node
-	key  interface{}
+type node struct {
+	data int
+	next *node
 }
 
-type List struct {
-	head *Node
-	tail *Node
+type linkedlist struct {
+	head   *node
+	length int
 }
 
-func (L *List) Insert(key interface{}) {
-	list := &Node{
-		next: L.head,
-		key:  key,
-	}
-	if L.head != nil {
-		L.head.prev = list
-	}
-	L.head = list
-
-	l := L.head
-	for l.next != nil {
-		l = l.next
-	}
-	L.tail = l
+func (l *linkedlist) prepend(n *node) {
+	second := l.head
+	l.head = n
+	l.head.next = second
+	l.length++
 }
 
-func (l *List) Display() {
-	list := l.head
-	for list != nil {
-		fmt.Printf("%+v ->", list.key)
-		list = list.next
+func (l linkedlist) printListData() {
+	toprint := l.head
+	for l.length != 0 {
+		fmt.Println(toprint.data)
+		toprint = toprint.next
+		l.length--
 	}
-	fmt.Println()
+	fmt.Println("")
 }
 
-func Display(list *Node) {
-	for list != nil {
-		fmt.Printf("%v ->", list.key)
-		list = list.next
+func (l *linkedlist) deletevalue(val int) {
+	if l.length == 0 {
+		return
 	}
-	fmt.Println()
-}
-
-func ShowBackwards(list *Node) {
-	for list != nil {
-		fmt.Printf("%v <-", list.key)
-		list = list.prev
+	if l.head.data == val {
+		l.head = l.head.next
+		l.length--
+		return
 	}
-	fmt.Println()
-}
 
-func (l *List) Reverse() {
-	curr := l.head
-	var prev *Node
-	l.tail = l.head
-
-	for curr != nil {
-		next := curr.next
-		curr.next = prev
-		prev = curr
-		curr = next
+	previousHeadToDelete := l.head
+	for previousHeadToDelete.next.data != val {
+		if previousHeadToDelete.next.next == nil {
+			return
+		}
+		previousHeadToDelete = previousHeadToDelete.next
 	}
-	l.head = prev
-	Display(l.head)
+	previousHeadToDelete = previousHeadToDelete.next.next
+	l.length--
 }
 
 func main() {
-	link := List{}
-	link.Insert(5)
-	link.Insert(9)
-	link.Insert(13)
-	link.Insert(22)
-	link.Insert(28)
-	link.Insert(36)
+	mylist := linkedlist{}
+	node1 := &node{data: 48}
+	node2 := &node{data: 82}
+	node3 := &node{data: 41}
+	mylist.prepend(node1)
+	mylist.prepend(node2)
+	mylist.prepend(node3)
 
-	fmt.Println("\n......")
-	fmt.Printf("Head: %v\n", link.head.key)
-	fmt.Printf("Tail: %v\n", link.tail.key)
-	link.Display()
-	fmt.Println("\n......")
-	fmt.Printf("head: %v\n", link.head.key)
-	fmt.Printf("tail: %v\n", link.tail.key)
-	link.Reverse()
-	fmt.Println("\n......")
+	fmt.Println(mylist)
+	mylist.printListData()
 }

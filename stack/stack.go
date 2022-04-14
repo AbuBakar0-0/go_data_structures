@@ -2,41 +2,18 @@ package main
 
 import "fmt"
 
-type Stack []string
-
-// IsEmpty: check if stack is empty
-func (s *Stack) IsEmpty() bool {
-	return len(*s) == 0
+type Stack struct {
+	items []int
 }
 
-// Push a new value onto the stack
-func (s *Stack) Push(str string) {
-	*s = append(*s, str) // Simply append the new value to the end of the stack
+func (s *Stack) Push(x int) {
+	s.items = append(s.items, x)
 }
-
-// Remove and return top element of stack. Return false if stack is empty.
-func (s *Stack) Pop() (string, bool) {
-	if s.IsEmpty() {
-		return "", false
-	} else {
-		index := len(*s) - 1   // Get the index of the top most element.
-		element := (*s)[index] // Index into the slice and obtain the element.
-		*s = (*s)[:index]      // Remove it from the stack by slicing it off.
-		return element, true
-	}
+func (s *Stack) Pop() int {
+	toRemove := s.items[len(s.items)-1]
+	s.items = s.items[:len(s.items)-1]
+	return toRemove
 }
-
 func main() {
-	var stack Stack // create a stack variable of type Stack
-
-	stack.Push("this")
-	stack.Push("is")
-	stack.Push("sparta!!")
-
-	for len(stack) > 0 {
-		x, y := stack.Pop()
-		if y == true {
-			fmt.Println(x)
-		}
-	}
+	fmt.Println("Stack Example")
 }
